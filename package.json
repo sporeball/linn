@@ -1,0 +1,29 @@
+{
+  "name": "linn",
+  "version": "0.0.0",
+  "description": "organize CSS properties according to 9elements' guide",
+  "type": "module",
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+  },
+  "bin": {
+    "linn": "cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sporeball/linn.git"
+  },
+  "keywords": [
+    "css",
+    "lint",
+    "linter",
+    "property",
+    "order"
+  ],
+  "author": "sporeball",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sporeball/linn/issues"
+  },
+  "homepage": "https://github.com/sporeball/linn#readme"
+}
