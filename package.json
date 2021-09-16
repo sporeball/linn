@@ -25,5 +25,10 @@
   "bugs": {
     "url": "https://github.com/sporeball/linn/issues"
   },
-  "homepage": "https://github.com/sporeball/linn#readme"
+  "homepage": "https://github.com/sporeball/linn#readme",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "eol": "^0.9.1",
+    "yeow": "^0.2.0"
+  }
 }
