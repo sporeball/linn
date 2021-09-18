@@ -31,21 +31,23 @@ const rules = source.match(RULE_REGEX);
 for (const rule of rules) {
   const lines = rule.split('\n');
   const selector = lines[0].slice(0, lines[0].indexOf('{')).trim();
-  const props = lines.map(line => line.trim())
-    .filter(line => line.match(/^[^/*]+?:[^;]+?;?$/))
-    .map(prop => prop.slice(0, prop.indexOf(':')));
+  const declarations = lines.map(line => line.trim())
+    .filter(line => line.match(/[\w\n -]+:[^;]+?;?$/))
 
-  props.sort((a, b) => {
-    a = order.indexOf(a);
-    b = order.indexOf(b);
+  declarations.sort((a, b) => {
+    // slice to property, and look for it in the order array
+    a = order.indexOf(a.slice(0, a.indexOf(':')));
+    b = order.indexOf(b.slice(0, b.indexOf(':')));
+    // give properties not in the order array a very high value
     if (a === -1) {
       a = 999;
     }
     if (b === -1) {
       b = 999;
     }
+    // sort in ascending order
     return a - b;
   });
 
-  console.log(props);
+  console.log(declarations);
 }
