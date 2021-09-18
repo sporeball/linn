@@ -32,7 +32,8 @@ for (const rule of rules) {
   const lines = rule.split('\n');
   const selector = lines[0].slice(0, lines[0].indexOf('{')).trim();
   const declarations = lines.map(line => line.trim())
-    .filter(line => line.match(/[\w\n -]+:[^;]+?;?$/))
+    .flatMap(line => line.match(/[\w -]+?:[^{;}\n]+;?/gs))
+    .filter(line => line !== null);
 
   declarations.sort((a, b) => {
     // slice to property, and look for it in the order array
@@ -49,5 +50,6 @@ for (const rule of rules) {
     return a - b;
   });
 
+  console.log(selector);
   console.log(declarations);
 }
