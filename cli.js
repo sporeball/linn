@@ -17,7 +17,7 @@ const args = yeow({
   }
 });
 
-const RULE_REGEX = /[*\w.#()\[\]=~|^$, >+:-]+{[\w\n -]+:.+?}/gs;
+const RULE_REGEX = /[*\w.#()[\]=~|^$, >+:-]+{[\w\n -]+:.+?}/gs;
 
 let source;
 try {
@@ -30,12 +30,11 @@ try {
 const rules = source.match(RULE_REGEX);
 for (const rule of rules) {
   const lines = rule.split('\n');
-  const selector = lines[0].slice(0, lines[0].indexOf('{')).trim();
-  const declarations = lines.map(line => line.trim())
-    .flatMap(line => line.match(/[\w -]+?:[^{;}\n]+;?/gs))
-    .filter(line => line !== null);
+  const decs = lines.filter(line => line.match(/[\w -]+?:[^{;}\n]+;?$/gm));
 
-  declarations.sort((a, b) => {
+  let sortedDecs = [...decs].sort((a, b) => {
+    a = a.trim();
+    b = b.trim();
     // slice to property, and look for it in the order array
     a = order.indexOf(a.slice(0, a.indexOf(':')));
     b = order.indexOf(b.slice(0, b.indexOf(':')));
@@ -50,6 +49,12 @@ for (const rule of rules) {
     return a - b;
   });
 
-  console.log(selector);
-  console.log(declarations);
+  sortedDecs = sortedDecs.map(dec => dec.endsWith(';') ? dec : dec + ';');
+
+  source = source.replace(
+    rule,
+    rule.replace(decs.join('\n'), sortedDecs.join('\n').slice(0, -1))
+  );
 }
+
+console.log(source);
