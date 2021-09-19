@@ -1,5 +1,12 @@
 #!/usr/bin/env node
 
+/*
+  cli.js
+  linn CLI
+  copyright (c) 2021 sporeball
+  MIT license
+*/
+
 import { order } from './lib/order.js';
 
 import fs from 'fs';
@@ -10,10 +17,10 @@ import yeow from 'yeow';
 const args = yeow({
   file: {
     type: 'file',
-    extensions: '.css',
+    extensions: '.css / .scss',
     required: true,
     missing: 'a file must be passed',
-    invalid: 'not a .css file'
+    invalid: 'invalid file extension'
   }
 });
 
@@ -27,9 +34,13 @@ try {
   process.exit(1);
 }
 
+let changed = [];
+let numChanged = 0;
+
 const rules = source.match(RULE_REGEX);
 for (const rule of rules) {
   const lines = rule.split('\n');
+  const selector = lines[0].slice(0, lines[0].indexOf('{')).trim();
   const decs = lines.filter(line => line.match(/[\w -]+?:[^{;}\n]+;?$/gm));
 
   let sortedDecs = [...decs].sort((a, b) => {
@@ -51,10 +62,19 @@ for (const rule of rules) {
 
   sortedDecs = sortedDecs.map(dec => dec.endsWith(';') ? dec : dec + ';');
 
-  source = source.replace(
-    rule,
-    rule.replace(decs.join('\n'), sortedDecs.join('\n').slice(0, -1))
-  );
+  const newRule = rule.replace(decs.join('\n'), sortedDecs.join('\n').slice(0, -1));
+  if (rule !== newRule) {
+    source = source.replace(rule, newRule);
+    changed.push(selector);
+    numChanged++;
+  }
 }
 
-console.log(source);
+changed = changed.map(selector => chalk`    - {cyan ${selector}}`)
+  .join('\n');
+
+fs.writeFileSync(args.file, source);
+if (numChanged > 0) {
+  console.log('linn (https://github.com/sporeball/linn)');
+  console.log(chalk`  {green o} reordered ${numChanged} rules:\n${changed}`);
+}
