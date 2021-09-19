@@ -1,6 +1,6 @@
 {
   "name": "linn",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "organize CSS properties according to 9elements' guide",
   "type": "module",
   "engines": {
