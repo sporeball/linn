@@ -56,8 +56,3 @@ if you want to look at the order, see [lib/order.js](https://github.com/sporebal
 
 #### i disagree with where something is in the order. can you change it?
 no. like [standard/standard](https://github.com/standard/standard), linn is really supposed to help you avoid [bikeshedding](https://docs.freebsd.org/en/books/faq/#bikeshed-painting). unless i've forgotten a property or a new one is added to the CSS spec, the order is unlikely to change.
-
-### donate
-you can support the development of this project and others via Patreon:
-
-[![Support me on Patreon](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dsporeball%26type%3Dpledges%26suffix%3D%252Fmonth&style=for-the-badge)](https://patreon.com/sporeball)
